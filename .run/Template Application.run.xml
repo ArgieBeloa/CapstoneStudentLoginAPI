@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="Application" factoryName="Application">
+    <envs>
+      <env name="MONGO_DB_URI" value="mongodb+srv://argiepbeloa:idpZhtrtFLQMytX8@cluster0.68njnnp.mongodb.net/capstonedb?retryWrites=true&amp;w=majority" />
+    </envs>
+    <module name="demo" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
