@@ -63,6 +63,28 @@ public ResponseEntity<?> addStudentEvents(@PathVariable String id,
         return ResponseEntity.ok("Evaluation added successfully");
     }
 
+    @PostMapping("/{id}/upcomingEvents")
+    public ResponseEntity<?> addStudentUpcomingEvents(@PathVariable String id,
+                                                  @RequestBody List<StudentUpcomingEvents> events) {
+        studentService.addStudentUpcomingEvents(id, events);
+        return ResponseEntity.ok("Upcoming Events added successfully");
+    }
+
+//    delete upcoming student event (specific)
+    @DeleteMapping("/{studentNumber}/delete/upcomingEvents/{eventId}")
+    public ResponseEntity<String> deleteSpecificUpcomingEvents(@PathVariable String studentNumber, @PathVariable String eventId){
+
+        try {
+            studentService.deleteSpecificUpcomingEvent(studentNumber, eventId);
+            return  new ResponseEntity<>("Event remove successfully",HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>("An Error occurred while removing the event", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 //    delete by id
     @DeleteMapping("/{id}")
     public  void deleteById(@PathVariable String id){

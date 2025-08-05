@@ -2,18 +2,11 @@ package com.example.demo.eventdb;
 
 public class EventEvaluationDetails {
 
-    private String eventId;
       private String evaluationQuestion;
       private double studentRate;
       private String studentSuggestion;
 
-    public String getEventId() {
-        return eventId;
-    }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
-    }
 
     public String getEvaluationQuestion() {
         return evaluationQuestion;

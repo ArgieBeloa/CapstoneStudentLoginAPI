@@ -19,9 +19,32 @@ public class StudentModel {
     private String department;
     public String notificationId;
     public String macAddress;
-    private int studentAverageAttendance;
+    private double studentAverageAttendance;
     private double studentAverageRatings;
     private String tokenId;
+    private String category;
+    private List<StudentUpcomingEvents> studentUpcomingEvents;
+    private List<StudentEventAttended> studentEventAttended;
+    private List<StudentRecentEvaluation> studentRecentEvaluations;
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<StudentUpcomingEvents> getStudentUpcomingEvents() {
+        return studentUpcomingEvents;
+    }
+
+    public void setStudentUpcomingEvents(List<StudentUpcomingEvents> studentUpcomingEvents) {
+        this.studentUpcomingEvents = studentUpcomingEvents;
+    }
+
+
 
     public String getNotificationId() {
         return notificationId;
@@ -103,20 +126,20 @@ public class StudentModel {
         this.id = id;
     }
 
-    public int getStudentAverageAttendance() {
+    public double getStudentAverageAttendance() {
         return studentAverageAttendance;
     }
 
-    public void setStudentAverageAttendance(int studentAverageAttendance) {
+    public void setStudentAverageAttendance(double studentAverageAttendance) {
         this.studentAverageAttendance = studentAverageAttendance;
     }
 
-    public List<StudentEventAttended> getStudentEventAttendents() {
-        return studentEventAttendents;
+    public List<StudentEventAttended> getStudentEventAttended() {
+        return studentEventAttended;
     }
 
-    public void setStudentEventAttendents(List<StudentEventAttended> studentEventAttendents) {
-        this.studentEventAttendents = studentEventAttendents;
+    public void setStudentEventAttended(List<StudentEventAttended> studentEventAttendents) {
+        this.studentEventAttended = studentEventAttendents;
     }
 
     public String getStudentName() {
@@ -128,9 +151,6 @@ public class StudentModel {
     }
 
 
-
-    private List<StudentEventAttended> studentEventAttendents;
-    private List<StudentRecentEvaluation> studentRecentEvaluations;
 
 
 }

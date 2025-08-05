@@ -27,12 +27,27 @@ public class EventController {
           return new ResponseEntity<>(events,HttpStatus.OK);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<List<EventModel>> getEventById(@PathVariable String id){
+
+      List<EventModel> event = eventService.getEventById(id);
+
+      return  new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<List<EventModel>> getEventByCategory(@PathVariable String category){
 
           List<EventModel> event = eventService.getEventByCategory(category);
 
         return new ResponseEntity<>(event,  HttpStatus.OK);
+    }
+    @GetMapping("/{eventTitle}")
+    public ResponseEntity<List<EventModel>> getEventByEventTitle(@PathVariable String eventTitle){
+
+         List<EventModel> event = eventService.getEventByEventTitle(eventTitle);
+
+         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
 //    add data
@@ -65,7 +80,14 @@ public ResponseEntity<?> addEvents(@PathVariable String id,
     }
 
 
+//    update all student attending in event document
+   @PutMapping("/update/{id}")
+public ResponseEntity<EventModel>  updateEventAttending (@PathVariable String id, @RequestBody EventModel newEvent){
 
+    Optional<EventModel> updatedEvent = eventService.updateEvent(id, newEvent);
+
+        return updatedEvent.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+   }
 
 
 //    delete by id

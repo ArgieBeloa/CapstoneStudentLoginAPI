@@ -4,7 +4,7 @@ public class StudentRecentEvaluation {
 
     private String eventId;
     private String eventTitle;
-    private int studentRatingsGive;
+    private double studentRatingsGive;
     private String studentDateRated;
 
     public String getEventId() {
@@ -23,7 +23,7 @@ public class StudentRecentEvaluation {
         this.eventTitle = eventTitle;
     }
 
-    public int getStudentRatingsGive() {
+    public double  getStudentRatingsGive() {
         return studentRatingsGive;
     }
 

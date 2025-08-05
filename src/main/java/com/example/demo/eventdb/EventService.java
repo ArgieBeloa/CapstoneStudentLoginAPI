@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -27,6 +28,11 @@ public class EventService {
      public EventModel createEvent(EventModel eventModel){
          return eventRepository.save(eventModel);
 
+     }
+
+     public List<EventModel> getEventById(String id){
+
+        return eventRepository.getEventById(id);
      }
 
 
@@ -66,9 +72,41 @@ public class EventService {
 
         return eventRepository.getByEventCategory(category);
     }
+
+    public List<EventModel> getEventByEventTitle(String eventTitle){
+
+        return eventRepository.getEventByEventTitle(eventTitle);
+    }
     public void deleteEvent(String id){
 
         eventRepository.deleteById(id);
+    }
+    //     update event all student Attending
+
+    public Optional<EventModel> updateEvent(String id, EventModel eventModel){
+
+        return  eventRepository.findById(id).map(event->{
+            event.setId(eventModel.getId());
+            event.setEventTitle(eventModel.getEventTitle());
+            event.setEventShortDescription(eventModel.getEventShortDescription());
+            event.setEventBody(eventModel.getEventBody());
+            event.setEventDate(eventModel.getEventDate());
+            event.setEventTime(eventModel.getEventTime());
+            event.setEventLocation(eventModel.getEventLocation());
+            event.setEventCategory(eventModel.getEventCategory());
+            event.setEventTimeLength(eventModel.getEventTimeLength());
+            event.setEventAgendas(eventModel.getEventAgendas());
+            event.setEventStats(eventModel.getEventStats());
+            event.setEventOrganizer(eventModel.getEventOrganizer());
+            event.setEventEvaluationDetails(eventModel.getEventEvaluationDetails());
+            event.setEventPerformanceDetails(eventModel.getEventPerformanceDetails());
+            event.setAllStudentAttending(eventModel.getAllStudentAttending());
+
+
+            return eventRepository.save(event);
+        });
+
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.demo.studentPackage;
 
 import com.example.demo.eventPerformancedb.StudentEventAttended;
+import com.mongodb.BasicDBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -87,6 +89,44 @@ public class StudentService {
                 .each(newEvents.toArray());
 
         mongoTemplate.updateFirst(query, update, StudentModel.class);
+    }
+
+    public void addStudentUpcomingEvents(String studentId, List<StudentUpcomingEvents> newEvents) {
+//        if (newEvents == null || newEvents.isEmpty()) {
+//            return;
+//        }
+
+        Query query = new Query(Criteria.where("id").is(studentId));
+
+        Update update = new Update()
+                .push("studentUpcomingEvents")
+                .each(newEvents.toArray());
+
+        mongoTemplate.updateFirst(query, update, StudentModel.class);
+    }
+
+  //delete upcoming events specific object
+    public void deleteSpecificUpcomingEvent(String studentNumber, String eventId) {
+
+// Inject mongoTemplate and use this method:
+
+            if (studentNumber == null || eventId == null || studentNumber.isEmpty() || eventId.isEmpty()) {
+                throw new IllegalArgumentException("Student ID and Event ID cannot be null or empty");
+            }
+
+            // Match the student document
+            Query query = new Query(Criteria.where("studentNumber").is(studentNumber));
+
+            // Match subdocuments in the array that contain the eventId
+            BasicDBObject eventToRemove = new BasicDBObject("eventId", eventId);
+
+            // Remove all matching events
+            Update update = new Update().pull("studentUpcomingEvents", eventToRemove);
+
+            mongoTemplate.updateFirst(query, update, StudentModel.class);
+
+
+
     }
 
 //    delete by student id

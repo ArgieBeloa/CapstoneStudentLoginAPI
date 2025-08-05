@@ -9,4 +9,6 @@ public interface StudentRepository extends MongoRepository<StudentModel, String>
 
     StudentModel getByStudentNumber(String studentNumber);
 
+;
+
 }
