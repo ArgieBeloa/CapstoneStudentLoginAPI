@@ -91,18 +91,23 @@ public class StudentSecurityBean {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:8081",         // Web dev client
-                "http://192.168.254.104:8081",  // Local IP access from Expo Go / device
-                "http://192.168.254.104:19006",
-                "https://capstonestudentloginapi-1.onrender.com",// Expo dev tools (web)
-                "exp://*",                      // Optional: if using deep links or Expo Go
-                "http://localhost:19006"     )); // allow frontend origin
+
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8081",
+                "http://192.168.254.103:8081",
+                "http://192.168.254.103:19006",
+                "http://localhost:19006",
+                "https://capstonestudentloginapi-1.onrender.com"
+        ));
+
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // apply to all endpoints
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }

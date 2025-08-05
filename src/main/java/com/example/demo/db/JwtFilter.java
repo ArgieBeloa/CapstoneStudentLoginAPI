@@ -26,31 +26,73 @@ public class JwtFilter extends OncePerRequestFilter {
     ApplicationContext context;
 
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//  Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraWxsIiwiaWF0IjoxNzIzMTgzNzExLCJleHAiOjE3MjMxODM4MTl9.5nf7dRzKRiuGurN2B9dHh_M5xiu73ZzWPr6rbhOTTHs
-        String authHeader = request.getHeader("Authorization");
-        String token = null;
-        String studentNumber = null;
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+////  Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraWxsIiwiaWF0IjoxNzIzMTgzNzExLCJleHAiOjE3MjMxODM4MTl9.5nf7dRzKRiuGurN2B9dHh_M5xiu73ZzWPr6rbhOTTHs
+//        String authHeader = request.getHeader("Authorization");
+//        String token = null;
+//        String studentNumber = null;
+//
+//
+//        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+//            token = authHeader.substring(7);
+//            studentNumber = jwtService.extractUserName(token);
+////            System.out.println("JWT received: " + token);
+//
+//        }
+//
+//        if (studentNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//        UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(studentNumber);
+//            if (jwtService.validateToken(token, userDetails)) {
+//                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//                authToken.setDetails(new WebAuthenticationDetailsSource()
+//                        .buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+//            }
+//        }
+//
+//        filterChain.doFilter(request, response);
+//    }
+@Override
+protected void doFilterInternal(HttpServletRequest request,
+                                HttpServletResponse response,
+                                FilterChain filterChain) throws ServletException, IOException {
 
+    String path = request.getServletPath();
 
+    // 🔐 Skip JWT filter for login/register endpoints
+    if (path.contains("/api/students/login") || path.contains("/api/students/register")) {
+        filterChain.doFilter(request, response);
+        return;
+    }
+
+    String authHeader = request.getHeader("Authorization");
+    String token = null;
+    String studentNumber = null;
+
+    try {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             studentNumber = jwtService.extractUserName(token);
-//            System.out.println("JWT received: " + token);
-
         }
 
         if (studentNumber != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(studentNumber);
+            UserDetails userDetails = context.getBean(MyUserDetailsService.class)
+                    .loadUserByUsername(studentNumber);
             if (jwtService.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource()
-                        .buildDetails(request));
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 
-        filterChain.doFilter(request, response);
+    } catch (Exception e) {
+        // Prevent crashing on invalid/missing tokens
+        System.out.println("JWT filter error: " + e.getMessage());
     }
+
+    filterChain.doFilter(request, response);
+}
+
 }
