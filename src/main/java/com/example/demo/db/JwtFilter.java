@@ -59,6 +59,7 @@ protected void doFilterInternal(HttpServletRequest request,
                                 FilterChain filterChain) throws ServletException, IOException {
 
     String path = request.getServletPath();
+    System.out.println("Request path: " + request.getServletPath());
 
     // 🔐 Skip JWT filter for login/register endpoints
     if (path.contains("/api/students/login") || path.contains("/api/students/register")) {
