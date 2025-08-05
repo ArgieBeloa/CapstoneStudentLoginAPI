@@ -93,7 +93,8 @@ public class StudentSecurityBean {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:8081",         // Web dev client
                 "http://192.168.254.104:8081",  // Local IP access from Expo Go / device
-                "http://192.168.254.104:19006", // Expo dev tools (web)
+                "http://192.168.254.104:19006",
+                "https://capstonestudentloginapi-1.onrender.com",// Expo dev tools (web)
                 "exp://*",                      // Optional: if using deep links or Expo Go
                 "http://localhost:19006"     )); // allow frontend origin
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
