@@ -48,7 +48,7 @@ public class StudentSecurityBean {
                 .csrf(customizer -> customizer.disable())
               .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers( "api/students/login", "api/students/register")
+                        .requestMatchers( "/api/students/login", "/api/students/register")
                         .permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
