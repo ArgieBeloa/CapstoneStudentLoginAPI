@@ -1,23 +1,22 @@
-
-# Use the official Maven image to build the project
+# Stage 1: Build the project using Maven
 FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 
-# Copy the project files
+# Copy the project files (including src/, pom.xml)
 COPY . .
 
-# Build the application
+# Build the application JAR (skip tests if desired)
 RUN mvn clean package -DskipTests
 
-# Use the official OpenJDK image for the runtime environment
+# Stage 2: Run the app using a lightweight image
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 
-# Copy the built jar file
+# Copy the JAR from the build stage
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the application port
+# Expose the port
 EXPOSE 8080
 
-# Run the application
+# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
