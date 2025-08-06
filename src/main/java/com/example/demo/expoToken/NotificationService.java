@@ -23,28 +23,28 @@ public class NotificationService {
     @Autowired
     private PushNotificationSender pushNotificationSender;  // A component you write to send push notifications (see below)
 
-    @Scheduled(cron = "0 * * * * ?") // runs every minute
-    public void sendScheduledNotifications() {
-        ZonedDateTime nowPHT = ZonedDateTime.now(ZoneId.of("Asia/Manila"));
-
-        List<Notification> dueNotifications = notificationRepository.findByScheduledTimeBeforeAndSentFalse(nowPHT.toOffsetDateTime());
-
-        for (Notification notification : dueNotifications) {
-            List<PushTokenModel> tokens = pushTokenRepository.findByCourse(notification.getCourse());
-
-            for (PushTokenModel token : tokens) {
-                try {
-                    pushNotificationSender.sendNotification(token.getToken(), notification.getTitle(), notification.getBody());
-                } catch (IOException e) {
-                    System.err.println("Failed to send notification to token: " + token.getToken());
-                    e.printStackTrace();
-                }
-            }
-
-            notification.setSent(true);
-            notificationRepository.save(notification);
-        }
-    }
+//    @Scheduled(cron = "0 * * * * ?") // runs every minute
+//    public void sendScheduledNotifications() {
+//        ZonedDateTime nowPHT = ZonedDateTime.now(ZoneId.of("Asia/Manila"));
+//
+//        List<Notification> dueNotifications = notificationRepository.findByScheduledTimeBeforeAndSentFalse(nowPHT.toOffsetDateTime());
+//
+//        for (Notification notification : dueNotifications) {
+//            List<PushTokenModel> tokens = pushTokenRepository.findByCourse(notification.getCourse());
+//
+//            for (PushTokenModel token : tokens) {
+//                try {
+//                    pushNotificationSender.sendNotification(token.getToken(), notification.getTitle(), notification.getBody());
+//                } catch (IOException e) {
+//                    System.err.println("Failed to send notification to token: " + token.getToken());
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            notification.setSent(true);
+//            notificationRepository.save(notification);
+//        }
+//    }
 
 
     // Optional: Add method to create new notification
