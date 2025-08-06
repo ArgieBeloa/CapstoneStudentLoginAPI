@@ -12,7 +12,7 @@ import java.util.Collections;
 
 public class StudentPrincipal implements UserDetails {
 
-  private StudentModel studentModel;
+  private final StudentModel studentModel;
     public StudentPrincipal(StudentModel studentModel) {
         this.studentModel = studentModel;
     }
