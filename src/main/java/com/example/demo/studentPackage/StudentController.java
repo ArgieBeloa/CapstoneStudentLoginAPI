@@ -42,7 +42,7 @@ public class StudentController {
 
 //  add student data
 
-    @PutMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<StudentModel> registerStudent(@RequestBody StudentModel studentModel) {
         StudentModel savedStudent = studentService.createStudentData(studentModel);
         return ResponseEntity.ok(savedStudent);
