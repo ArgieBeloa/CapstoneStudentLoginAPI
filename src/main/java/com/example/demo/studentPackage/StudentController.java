@@ -41,10 +41,11 @@ public class StudentController {
     }
 
 //  add student data
-    @PostMapping("/register")
-    public StudentModel createStudentData(@RequestBody StudentModel studentModel){
 
-        return studentService.createStudentData(studentModel);
+    @PutMapping("/register")
+    public ResponseEntity<StudentModel> registerStudent(@RequestBody StudentModel studentModel) {
+        StudentModel savedStudent = studentService.createStudentData(studentModel);
+        return ResponseEntity.ok(savedStudent);
     }
 
 //    update student event attended
